@@ -5,6 +5,7 @@ import time
 import cv2
 import keyboard
 import matplotlib.pyplot as plt
+from workplace import load_array
 
 # this file will recreate google snake
 '''
@@ -28,21 +29,21 @@ def initial():
     for band in range(len(display_array)):
         for row in range(len(display_array[band])):
             for col in range(len(display_array[band][row])):
-                if 0 <= row < 4 or 0 <= col < 4 or  124 <= col < 128 or 124 <= row < 128:
+                if 0 <= row < 4 or 0 <= col < 4 or  124 <= col < 128 or 124 <= row < 128: #if it's a border
                     if band == 0:
                         display_array[band][row][col] = 87
                     if band == 1:
                         display_array[band][row][col] = 138
                     if band == 2:
                         display_array[band][row][col] = 52
-                elif int((row - 4) / 8) % 2 == int((col - 4) / 8) % 2:
+                elif int((row - 4) / 8) % 2 == int((col - 4) / 8) % 2: #if it's light green
                     if band == 0:
                         display_array[band][row][col] = 167
                     if band == 1:
                         display_array[band][row][col] = 217
                     if band == 2:
                         display_array[band][row][col] = 72
-                else:
+                else: #if it's dark green
                     if band == 0:
                         display_array[band][row][col] = 142
                     if band == 1:
@@ -56,26 +57,35 @@ np.printoptions(linewidth = 512, threshold = 512)
 
 data_array = np.zeros((15,15)).astype(np.uint8)
 #print(data_array)
-
+dark_cherry = load_array('dark_cherry')
+light_cherry = load_array('light_cherry')
 
 def random_orb(array, data):
-    if 5 in data:
+    if 5 in data: #if there's an orb in the smaller data array
         for row in range(len(data)):
             for col in range(len(data[row])):
                 if data[row][col] == 5:
-                    for i in range(3):
-                        array[i][row * 8 + 4: row * 8 + 12, col * 8 + 4: col * 8 + 12] = 0
-    else:
-        row5 = np.random.randint(len(data))
-        col5 = np.random.randint(len(data[row5]))
-        if data[row5][col5] == 0:
-            data[row5, col5] = 5
-            for i in range(3):
-                array[i][row5 * 8 + 4: row5 * 8 + 12, col5 * 8 + 4: col5 * 8 + 12] = 0
-        else:
+                    if row % 2 == col % 2: #if the orb is in a light green square
+                        for i in range(3):
+                            array[i][row * 8 + 4: row * 8 + 12, col * 8 + 4: col * 8 + 12] = light_cherry[i]
+                    else: #if the orb is in a dark green square
+                        for i in range(3):
+                            array[i][row * 8 + 4: row * 8 + 12, col * 8 + 4: col * 8 + 12] = dark_cherry[i]
+    else: #if there isn't an orb then we must make one
+        row = np.random.randint(len(data))
+        col = np.random.randint(len(data[row]))
+        if data[row][col] == 0: #if it isn't part of the snake
+            data[row, col] = 5
+            if row % 2 == col % 2: #if the square is light green
+                for i in range(3):
+                    array[i][row * 8 + 4: row * 8 + 12, col * 8 + 4: col * 8 + 12] = light_cherry[i]
+            else: #if the square is dark green
+                for i in range(3):
+                    array[i][row * 8 + 4: row * 8 + 12, col * 8 + 4: col * 8 + 12] = dark_cherry[i]
+        else: #if it's part of the snake then it tries again
             random_orb(array, data)
 
-#----------------------------function---------------------------------------
+#----------------------------main function---------------------------------------
 
 def snake_motion(data, head_list = None, direction = [], apple = None, count = 0):
     array = initial()
@@ -205,7 +215,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
         #fig.canvas.flush_events()
 
     image = Image.fromarray(array.astype(np.uint8))
-    os.makedirs('images', exist_ok=True)
+    os.makedirs('images', exist_ok = True)
     image.save('images/test.png')
     #print(head_list)
     #-------------------------------------------------
