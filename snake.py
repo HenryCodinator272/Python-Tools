@@ -57,8 +57,20 @@ np.printoptions(linewidth = 512, threshold = 512)
 
 data_array = np.zeros((15,15)).astype(np.uint8)
 #print(data_array)
+
 dark_cherry = load_array('dark_cherry')
 light_cherry = load_array('light_cherry')
+
+snake_head_down_dark = load_array('snake_head_down_dark')
+snake_head_right_dark = load_array('snake_head_right_dark')
+snake_head_left_dark = load_array('snake_head_left_dark')
+snake_head_up_dark = load_array('snake_head_up_dark')
+
+snake_head_down_light = load_array('snake_head_down_light')
+snake_head_right_light = load_array('snake_head_right_light')
+snake_head_left_light = load_array('snake_head_left_light')
+snake_head_up_light = load_array('snake_head_up_light')
+
 
 def random_orb(array, data):
     if 5 in data: #if there's an orb in the smaller data array
@@ -114,7 +126,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
 
     if head_list is None:
         random_orb(array, data)
-        head_list = [[6, 2]]
+        head_list = [[6, 2], [6, 1]]
         direction.append('right')
 
     #----------------directional code-------------------
@@ -192,13 +204,35 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
     for number, coords in enumerate(head_list):
         row_snake = coords[0]
         col_snake = coords[1]
-        for i in range(3):
-            if i == 0:
-                array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = 157
-            if i == 1:
-                array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = bing[number] #255 - 255/(number / 5 + 1)
-            if i == 2:
-                array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = 255
+        if number == 0:
+            if col_snake % 2 != row_snake % 2:
+                for i in range(3):
+                    if direction[0] == 'up':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_up_dark[i]
+                    if direction[0] == 'down':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_down_dark[i]
+                    if direction[0] == 'left':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_left_dark[i]
+                    if direction[0] == 'right':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_right_dark[i]
+            else:
+                for i in range(3):
+                    if direction[0] == 'up':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_up_light[i]
+                    if direction[0] == 'down':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_down_light[i]
+                    if direction[0] == 'left':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_left_light[i]
+                    if direction[0] == 'right':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_right_light[i]
+        else:
+            for i in range(3):
+                if i == 0:
+                    array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = 157
+                if i == 1:
+                    array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = bing[number] #255 - 255/(number / 5 + 1)
+                if i == 2:
+                    array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = 255
 
     #-----------transposing for image processing---------------
     array = np.transpose(array, (1, 2, 0))
