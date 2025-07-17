@@ -209,7 +209,7 @@ def clock_function(start=0, start_list=[0, 0, 0, 0]):
         clock_function(start=ball, start_list=list_time)
 
 
-#clock_function()
+clock_function()
 '''
 Working
 Eval

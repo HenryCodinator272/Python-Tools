@@ -2,7 +2,6 @@ import numpy as np
 import PIL.Image as Image
 import os
 import time
-import cv2
 import keyboard
 import matplotlib.pyplot as plt
 from workplace import load_array
@@ -58,6 +57,8 @@ np.printoptions(linewidth = 512, threshold = 512)
 data_array = np.zeros((15,15)).astype(np.uint8)
 #print(data_array)
 
+#------------------------------data array storage-------------------------------
+
 dark_cherry = load_array('dark_cherry')
 light_cherry = load_array('light_cherry')
 
@@ -71,6 +72,33 @@ snake_head_right_light = load_array('snake_head_right_light')
 snake_head_left_light = load_array('snake_head_left_light')
 snake_head_up_light = load_array('snake_head_up_light')
 
+snake_head2_down_dark = load_array('snake_head2_down_dark')
+snake_head2_right_dark = load_array('snake_head2_right_dark')
+snake_head2_left_dark = load_array('snake_head2_left_dark')
+snake_head2_up_dark = load_array('snake_head2_up_dark')
+
+snake_head2_down_light = load_array('snake_head2_down_light')
+snake_head2_right_light = load_array('snake_head2_right_light')
+snake_head2_left_light = load_array('snake_head2_left_light')
+snake_head2_up_light = load_array('snake_head2_up_light')
+
+upper_body_right_dark = load_array('upper_body_right_dark')
+upper_body_up_dark = load_array('upper_body_up_dark')
+upper_body_right_light = load_array('upper_body_right_light')
+upper_body_up_light = load_array('upper_body_up_light')
+
+upper_body_right_up_dark = load_array('upper_body_right_up_dark')
+upper_body_right_down_dark = load_array('upper_body_right_down_dark')
+upper_body_left_up_dark = load_array('upper_body_left_up_dark')
+upper_body_left_down_dark = load_array('upper_body_left_down_dark')
+
+upper_body_right_up_light = load_array('upper_body_right_up_light')
+upper_body_right_down_light = load_array('upper_body_right_down_light')
+upper_body_left_up_light = load_array('upper_body_left_up_light')
+upper_body_left_down_light = load_array('upper_body_left_down_light')
+
+
+#-------------------function that generates a random fruit-----------------------
 
 def random_orb(array, data):
     if 5 in data: #if there's an orb in the smaller data array
@@ -101,27 +129,40 @@ def random_orb(array, data):
 
 def snake_motion(data, head_list = None, direction = [], apple = None, count = 0):
     array = initial()
+    '''
     count += 1
     print(count)
-    time.sleep(0.05)
+    '''
+    count += 1
+
+    #time.sleep(0.05)
+
+    start_time = time.perf_counter()
+
 
 #-------------------------called when button is pressed---------------------------
+
     def direction1(event):
         key_name = event.name
         if key_name == 'up' and direction[0] != 'down':
-            direction.append('up')
-            direction.pop(0)
+            if direction[0] != 'up':
+                direction.append('up')
+                direction.pop(0)
         if key_name == 'down' and direction[0] != 'up':
-            direction.append('down')
-            direction.pop(0)
+            if direction[0] != 'down':
+                direction.append('down')
+                direction.pop(0)
         if key_name == 'left' and direction[0] != 'right':
-            direction.append('left')
-            direction.pop(0)
+            if direction[0] != 'left':
+                direction.append('left')
+                direction.pop(0)
         if key_name == 'right' and direction[0] != 'left':
-            direction.append('right')
-            direction.pop(0)
+            if direction[0] != 'right':
+                direction.append('right')
+                direction.pop(0)
 
     #------------------initializing----------------------
+
     random_orb(array, data)
 
     if head_list is None:
@@ -129,7 +170,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
         head_list = [[6, 2], [6, 1]]
         direction.append('right')
 
-    #----------------directional code-------------------
+    #----------------directional input code-------------------
     keyboard.on_press_key('up', lambda e: direction1(e))
     keyboard.on_press_key('down', lambda f: direction1(f))
     keyboard.on_press_key('left', lambda g: direction1(g))
@@ -138,9 +179,11 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
     #keyboard.wait('esc')
 
     #----------------deletes tail--------------------------
+
     data[head_list[-1][0]][head_list[-1][1]] = 0
 
-    #------------------directional code---------------------
+    #------------------directional output code---------------------
+
     if direction[0] == 'right':
         if head_list[0][1] < 14:
             if data[head_list[0][0]][head_list[0][1] + 1] == 5:
@@ -225,6 +268,61 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_left_light[i]
                     if direction[0] == 'right':
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_right_light[i]
+        elif number == 1:
+            if col_snake % 2 != row_snake % 2:
+                for i in range(3):
+                    if direction[0] == 'up':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                        snake_head2_up_dark[i]
+                    if direction[0] == 'down':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                        snake_head2_down_dark[i]
+                    if direction[0] == 'left':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                        snake_head2_left_dark[i]
+                    if direction[0] == 'right':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                        snake_head2_right_dark[i]
+            else:
+                for i in range(3):
+                    if direction[0] == 'up':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_up_light[i]
+                    if direction[0] == 'down':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_down_light[i]
+                    if direction[0] == 'left':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_left_light[i]
+                    if direction[0] == 'right':
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_right_light[i]
+        elif number <= (len(head_list) - 1) / 2:
+            if col_snake % 2 != row_snake % 2:
+                if head_list[number - 1][0] == head_list[number + 1][0]:
+                    upper_body_right_dark[1] = np.where(upper_body_right_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                            array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                                upper_body_right_dark[i]
+                elif head_list[number - 1][1] == head_list[number + 1][1]:
+                    upper_body_up_dark[1] = np.where(upper_body_up_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            upper_body_up_dark[i]
+                elif head_list[number - 1][0] == head_list[number + 1][0] - 1 == head_list[number][0]:
+                    upper_body_right_down_dark[1] = np.where(upper_body_right_down_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            upper_body_right_down_dark[i]
+
+            else:
+                if head_list[number - 1][0] == head_list[number + 1][0]:
+                    upper_body_right_light[1] = np.where(upper_body_right_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                            array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                                upper_body_right_light[i]
+                elif head_list[number - 1][1] == head_list[number + 1][1]:
+                    upper_body_up_light[1] = np.where(upper_body_up_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            upper_body_up_light[i]
+
         else:
             for i in range(3):
                 if i == 0:
@@ -234,14 +332,23 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                 if i == 2:
                     array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = 255
 
+        '''
+        elif number == len(head_list) - 1:
+        '''
+
     #-----------transposing for image processing---------------
     array = np.transpose(array, (1, 2, 0))
 
-    #if count == 0:
 
     fig, ax = plt.subplots()
     ax.axis('off')
-    im = ax.imshow(array, interpolation='nearest')
+    ax.imshow(array, interpolation = 'nearest')
+
+    end_time = time.perf_counter()
+    if 0.1 - (end_time - start_time) > 0:
+        time.sleep(0.1 - (end_time - start_time))
+    else:
+        print(end_time - start_time, count)
     plt.show()
     #else:
         #im.set_data(array)
