@@ -137,9 +137,9 @@ def recursive_function(blob):
     temp_array = copy.deepcopy(blob)
     list1 = []
     speed = []
-    if np.random.randint(1,4) == 1:
-        for number in range(np.random.randint(1, 2)): # make max higher for more strings
-            list1.append(random.randrange(0, 128, 4)) #make step higher for more strings make sure its mod 4 tho
+    if np.random.randint(1,3) == 1:
+        for number in range(np.random.randint(1, 3)): # make max higher for more strings
+            list1.append(random.randrange(0, 128, 2)) #make step higher for more strings make sure its mod 4 tho
             speed.append(np.random.randint(4, 10)) #adjusts speed
         for stage in range(3):
             for x in list1:

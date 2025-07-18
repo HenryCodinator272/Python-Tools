@@ -53,7 +53,7 @@ def initial():
     return display_array
 #----------------------------Start and End Intialization------------------------
 def lose(raised_error, score):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(facecolor = 'black')
     ax.axis('off')
     plt.text(64, 42, 'Game Over!', color = 'white', horizontalalignment = 'center', verticalalignment = 'center', fontsize = 20, weight = 'bold', fontname = 'Times New Roman')
     plt.text(64, 55, f'{raised_error}', ha='center', va='center', color = 'white', weight = 'bold', fontname = 'Times New Roman')
@@ -71,18 +71,15 @@ def lose(raised_error, score):
     ax.imshow(display_array)
     plt.show()
 
-def begin():
+def begin(array):
+    array = np.transpose(array, (1, 2, 0))
     for i in range(3, 0, -1):
         colors = ['green', 'yellow', 'red']
         fig, ax = plt.subplots(facecolor = f'{colors[i - 1]}')
         ax.axis('off')
-        plt.text(64, 64, f'{i}', color = f'{colors[i - 1]}', horizontalalignment='center', verticalalignment='center', fontsize=60,
+        plt.text(64, 64, f'{i}', color = f'black', horizontalalignment='center', verticalalignment='center', fontsize=60,
                  weight='bold', fontname='Times New Roman')
-        display_array1 = np.zeros((128, 128))
-        display_array = np.stack((display_array1, np.zeros((128, 128))))
-        display_array = np.concatenate((display_array, np.zeros((1, 128, 128))), axis=0).astype(np.uint8)
-        display_array = np.transpose(display_array, (1, 2, 0))
-        ax.imshow(display_array)
+        ax.imshow(array)
         plt.show()
         time.sleep(1)
 #------------------------------Test Initialization------------------------------
@@ -276,7 +273,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                 random_orb(array, data)
         elif head_list[0][1] == 14:
             lose('You hit a wall!', head_list)
-            raise ValueError('You hit a wall! You lose!')
+            raise ValueError('You hit a wall!')
 
     if direction[0] == 'left':
         if head_list[0][1] > 0:
@@ -673,7 +670,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
 
 #random_orb(display_array, data_array)
 #print(data_array)
-begin()
+begin(initial())
 snake_motion(data_array)
 #---------------------------------TESTING---------------------------------------
 #display_array = np.transpose(display_array, (1, 2, 0))
