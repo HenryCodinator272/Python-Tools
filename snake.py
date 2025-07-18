@@ -648,7 +648,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
     end_time = time.perf_counter()
     if 0.05 - (end_time - start_time) > 0:
         time.sleep(0.05 - (end_time - start_time))
-        pass
+        #pass
     else:
         print(end_time - start_time, count)
     plt.show()
