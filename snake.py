@@ -126,6 +126,24 @@ tail_up_light = load_array('tail_up_light')
 tail_left_dark = load_array('tail_left_dark')
 tail_left_light = load_array('tail_left_light')
 
+head2_lturn_left_down_dark = load_array('head2_lturn_left_down_dark')
+head2_lturn_left_down_light = load_array('head2_lturn_left_down_light')
+head2_lturn_left_up_dark = load_array('head2_lturn_left_up_dark')
+head2_lturn_left_up_light = load_array('head2_lturn_left_up_light')
+head2_lturn_right_down_dark = load_array('head2_lturn_right_down_dark')
+head2_lturn_right_down_light = load_array('head2_lturn_right_down_light')
+head2_lturn_right_up_dark = load_array('head2_lturn_right_up_dark')
+head2_lturn_right_up_light = load_array('head2_lturn_right_up_light')
+
+head2_rturn_left_down_dark = load_array('head2_rturn_left_down_dark')
+head2_rturn_left_down_light = load_array('head2_rturn_left_down_light')
+head2_rturn_left_up_dark = load_array('head2_rturn_left_up_dark')
+head2_rturn_left_up_light = load_array('head2_rturn_left_up_light')
+head2_rturn_right_down_dark = load_array('head2_rturn_right_down_dark')
+head2_rturn_right_down_light = load_array('head2_rturn_right_down_light')
+head2_rturn_right_up_dark = load_array('head2_rturn_right_up_dark')
+head2_rturn_right_up_light = load_array('head2_rturn_right_up_light')
+
 
 #-------------------function that generates a random fruit-----------------------
 
@@ -196,7 +214,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
 
     if head_list is None:
         random_orb(array, data)
-        head_list = [[6, 2], [6, 1]]
+        head_list = [[6, 2], [6, 1], [6, 0]]
         direction.append('right')
 
     #----------------directional input code-------------------
@@ -299,33 +317,88 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_left_light[i]
                     if direction[0] == 'right':
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_right_light[i]
-
+# above deals with orienting the head
         elif number == 1:
             if col_snake % 2 != row_snake % 2:
                 for i in range(3):
-                    if direction[0] == 'up':
+                    if head_list[0][0] + 1 == head_list[2][0] - 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
                         snake_head2_up_dark[i]
-                    if direction[0] == 'down':
+                    elif head_list[0][0] - 1 == head_list[2][0] + 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
                         snake_head2_down_dark[i]
-                    if direction[0] == 'left':
+                    elif head_list[0][1] + 1 == head_list[2][1] - 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
                         snake_head2_left_dark[i]
-                    if direction[0] == 'right':
+                    elif head_list[0][1] - 1 == head_list[2][1] + 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
                         snake_head2_right_dark[i]
+
+
+                    elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_lturn_right_down_dark[i]
+                    elif head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_rturn_right_down_dark[i]
+                    elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_rturn_left_down_dark[i]
+                    elif head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_lturn_left_down_dark[i]
+                    elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_rturn_right_up_dark[i]
+                    elif head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_lturn_right_up_dark[i]
+                    elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_lturn_left_up_dark[i]
+                    elif head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_rturn_left_up_dark[i]
+
+
+
             else:
                 for i in range(3):
-                    if direction[0] == 'up':
+                    if head_list[0][0] + 1 == head_list[2][0] - 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_up_light[i]
-                    if direction[0] == 'down':
+                    elif head_list[0][0] - 1 == head_list[2][0] + 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_down_light[i]
-                    if direction[0] == 'left':
+                    elif head_list[0][1] + 1 == head_list[2][1] - 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_left_light[i]
-                    if direction[0] == 'right':
+                    elif head_list[0][1] - 1 == head_list[2][1] + 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_right_light[i]
 
+
+                    elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_lturn_right_down_light[i]
+                    elif head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_rturn_right_down_light[i]
+                    elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_rturn_left_down_light[i]
+                    elif head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_lturn_left_down_light[i]
+                    elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_rturn_right_up_light[i]
+                    elif head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_lturn_right_up_light[i]
+                    elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_lturn_left_up_light[i]
+                    elif head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1:
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            head2_rturn_left_up_light[i]
+# above deals with the 2nd half of the head
         elif number > 1 and number == len(head_list) - 1:
             if col_snake % 2 != row_snake % 2:
                 if head_list[number][0] == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1] + 1:
@@ -393,7 +466,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                     for i in range(3):
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
                             tail_up_light[i]
-
+# above deals with the tail
         elif number <= 8:
             if col_snake % 2 != row_snake % 2:
                 if head_list[number - 1][0] == head_list[number + 1][0]:
@@ -460,7 +533,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                     for i in range(3):
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
                             upper_body_left_up_light[i]
-
+# above deals with the upper half of the snake
         elif number > 8:
             if col_snake % 2 != row_snake % 2:
                 if head_list[number - 1][0] == head_list[number + 1][0]:
@@ -527,7 +600,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                     for i in range(3):
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
                             lower_body_left_up_light[i]
-
+# above deals with the lower half of the snake
 
     #-----------transposing for image processing---------------
     array = np.transpose(array, (1, 2, 0))
@@ -540,6 +613,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
     end_time = time.perf_counter()
     if 0.1 - (end_time - start_time) > 0:
         time.sleep(0.1 - (end_time - start_time))
+        pass
     else:
         print(end_time - start_time, count)
     plt.show()

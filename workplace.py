@@ -16,7 +16,11 @@ def save_images(file_base_name):
             src = Image.open(f'images/snake_parts/{file_base_name}_{direction[0]}_{mode}.png')
             src = src.rotate(90)
             src.save(f'images/snake_parts/{file_base_name}_{direction[1]}_{mode}.png')
-save_images('tail')
 
+#save_images('tailiji')
 
+for mode in ['dark', 'light']:
+    src = Image.open(f'images/snake_parts/head2_rturn_left_down_{mode}.png')
+    src = src.rotate(90)
+    src.save(f'images/snake_parts/head2_rturn_right_down_{mode}.png')
 
