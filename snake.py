@@ -51,6 +51,41 @@ def initial():
                         display_array[band][row][col] = 57
 
     return display_array
+#----------------------------Start and End Intialization------------------------
+def lose(raised_error, score):
+    fig, ax = plt.subplots()
+    ax.axis('off')
+    plt.text(64, 42, 'Game Over!', color = 'white', horizontalalignment = 'center', verticalalignment = 'center', fontsize = 20, weight = 'bold', fontname = 'Times New Roman')
+    plt.text(64, 55, f'{raised_error}', ha='center', va='center', color = 'white', weight = 'bold', fontname = 'Times New Roman')
+    plt.text(64, 62, f'Score: {len(score)}', ha='center', va='center', color='white', weight='bold', fontname='Times New Roman')
+    if len(score) < 10:
+        plt.text(64, 84, '😒', fontsize=50, fontname='Segoe UI Emoji', ha='center', va='center', color='white')
+    elif 15 > len(score) > 10:
+        plt.text(64, 84, '😎', fontsize=50, fontname='Segoe UI Emoji', ha='center', va='center', color='white')
+    else:
+        plt.text(64, 84, '😁', fontsize=50, fontname='Segoe UI Emoji', ha='center', va='center', color='white')
+    display_array1 = np.zeros((128, 128))
+    display_array = np.stack((display_array1, np.zeros((128, 128))))
+    display_array = np.concatenate((display_array, np.zeros((1, 128, 128))), axis=0).astype(np.uint8)
+    display_array = np.transpose(display_array, (1, 2, 0))
+    ax.imshow(display_array)
+    plt.show()
+
+def begin():
+    for i in range(3, 0, -1):
+        fig, ax = plt.subplots()
+        colors = ['green', 'yellow', 'red']
+        ax.axis('off')
+        plt.text(64, 64, f'{i}', color = f'{colors[i - 1]}', horizontalalignment='center', verticalalignment='center', fontsize=60,
+                 weight='bold', fontname='Times New Roman')
+        display_array1 = np.zeros((128, 128))
+        display_array = np.stack((display_array1, np.zeros((128, 128))))
+        display_array = np.concatenate((display_array, np.zeros((1, 128, 128))), axis=0).astype(np.uint8)
+        display_array = np.transpose(display_array, (1, 2, 0))
+        ax.imshow(display_array)
+        plt.show()
+        time.sleep(1)
+
 #------------------------------Initialization-----------------------------------
 np.printoptions(linewidth = 512, threshold = 512)
 
@@ -242,6 +277,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                 data[head_list[1][0]][head_list[1][1] + 1] = 2
                 random_orb(array, data)
         elif head_list[0][1] == 14:
+            lose('You hit a wall!', head_list)
             raise ValueError('You hit a wall! You lose!')
 
     if direction[0] == 'left':
@@ -255,7 +291,8 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                 data[head_list[1][0]][head_list[1][1] - 1] = 2
                 random_orb(array, data)
         elif head_list[0][1] == 0:
-            raise ValueError('You hit a wall! You lose!')
+            lose('You hit a wall! You lose!', head_list)
+            raise ValueError('You hit a wall!')
 
     if direction[0] == 'up':
         if head_list[0][0] > 0:
@@ -268,6 +305,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                 data[head_list[1][0] - 1, head_list[1][1]] = 2
                 random_orb(array, data)
         elif head_list[0][0] == 0:
+            lose('You hit a wall!', head_list)
             raise ValueError('You hit a wall! You lose!')
 
     if direction[0] == 'down':
@@ -281,11 +319,13 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                 data[head_list[1][0] + 1][head_list[1][1]] = 2
                 random_orb(array, data)
         elif head_list[0][0] == 14:
+            lose('You hit a wall!', head_list)
             raise ValueError('You hit a wall! You lose!')
 
     #--------------------updates tail in data array-----------------------
 
     if head_list.count(head_list[0]) == 2:
+        lose('You crashed into yourself!', head_list)
         raise ValueError('You crashed into yourself! You lose!')
     for coords in head_list:
         data[coords[0]][coords[1]] = 2
@@ -635,6 +675,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
 
 #random_orb(display_array, data_array)
 #print(data_array)
+begin()
 snake_motion(data_array)
 #---------------------------------TESTING---------------------------------------
 #display_array = np.transpose(display_array, (1, 2, 0))
