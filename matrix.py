@@ -74,8 +74,6 @@ with rasterio.open(file_path) as src:
 
 print(island_counter(array))
 '''
-
-(3, 1024, 1024)
 '''
 #with Image.open('../data/Henry_neon_trial.avif') as img:
     #img.save('../data/imagedata1.png')
@@ -124,12 +122,9 @@ for i in range(3):
 #array = np.transpose(array, (2, 0, 1))
 
 count = 0
-def recursive_function(blob, ax = ''):
-    plt.ion()
+def recursive_function(blob):
     bert = False
     global count
-    global fig
-    global im
     count += 1
     #time.sleep(2)
     hex_list = band_hex_separation(["#00FF00","#00CC00","#009900","#006600","#004400","#002200","#001100","#000000"])
@@ -142,10 +137,10 @@ def recursive_function(blob, ax = ''):
     temp_array = copy.deepcopy(blob)
     list1 = []
     speed = []
-    if np.random.randint(1,2) == 1:
+    if np.random.randint(1,4) == 1:
         for number in range(np.random.randint(1, 2)): # make max higher for more strings
             list1.append(random.randrange(0, 128, 4)) #make step higher for more strings make sure its mod 4 tho
-            speed.append(np.random.randint(7, 40)) #adjusts speed
+            speed.append(np.random.randint(4, 10)) #adjusts speed
         for stage in range(3):
             for x in list1:
                 index = list1.index(x)
@@ -199,38 +194,22 @@ def recursive_function(blob, ax = ''):
 
     visual_array = np.transpose(temp_array, (1, 2, 0))
 
-    odd_characters = '⅃ᗩ⅃Ƣ₳ØϗИᏴΔM₦Σ₥'
-
-    if count == 1:
-        fig, ax = plt.subplots()
-        fig.patch.set_facecolor('black')
-        im = ax.imshow(visual_array, alpha = 0)
-        ax.axis('off')
-        for row in range(128):
-            for col in range(128):
-                if col % 4 == 0 and row % 4 == 0:
-                    if temp_array[1][row][col] != 0:
-                        index = np.random.randint(0, 11)
-                        plt.text(col, row, odd_characters[index], fontdict = { 'color' : (temp_array[0][row][col] / 255, temp_array[1][row][col] / 255, temp_array[2][row][col] / 255), 'fontsize' : 16 })
-
-        plt.show()
+    odd_characters = '01010110010101010110'
 
 
+    fig, ax = plt.subplots()
+    fig.patch.set_facecolor('black')
+    ax.imshow(visual_array, alpha = 0)
+    ax.axis('off')
+    for row in range(128):
+        for col in range(128):
+            if col % 4 == 0 and row % 4 == 0:
+                if temp_array[1][row][col] != 0:
+                    index = np.random.randint(0, 11)
+                    plt.text(col, row, odd_characters[index], fontdict = { 'color' : (temp_array[0][row][col] / 255, temp_array[1][row][col] / 255, temp_array[2][row][col] / 255), 'fontsize' : 8 })
 
-    if count != 1:
-        # Before drawing new frame
-        for t in ax.texts:
-            t.remove()
+    plt.show()
 
-        for row in range(128):
-            for col in range(128):
-                if (col % 4 == 0 and row % 4 == 0) or temp_array[0][row][col] == 254:
-                    if temp_array[1][row][col] != 0:
-                        index = np.random.randint(0, 11)
-                        plt.text(col, row, odd_characters[index], fontdict = { 'color' : (temp_array[0][row][col] / 255, temp_array[1][row][col] / 255, temp_array[2][row][col] / 255), 'fontsize' : 16 })
-        im.set_data(visual_array)
-        fig.canvas.draw()
-        fig.canvas.flush_events()
     #temp_array = np.transpose(temp_array, (2, 0, 1)).astype('uint8')
-    recursive_function(temp_array, ax=ax)
+    recursive_function(temp_array)
 recursive_function(array)
