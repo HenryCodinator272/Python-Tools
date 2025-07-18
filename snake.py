@@ -85,14 +85,12 @@ def begin():
         ax.imshow(display_array)
         plt.show()
         time.sleep(1)
-
-#------------------------------Initialization-----------------------------------
+#------------------------------Test Initialization------------------------------
 np.printoptions(linewidth = 512, threshold = 512)
 
 data_array = np.zeros((15,15)).astype(np.uint8)
 #print(data_array)
-
-#------------------------------data array storage-------------------------------
+#------------------------------Data Array Storage-------------------------------
 
 dark_cherry = load_array('dark_cherry')
 light_cherry = load_array('light_cherry')
@@ -291,7 +289,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                 data[head_list[1][0]][head_list[1][1] - 1] = 2
                 random_orb(array, data)
         elif head_list[0][1] == 0:
-            lose('You hit a wall! You lose!', head_list)
+            lose('You hit a wall!', head_list)
             raise ValueError('You hit a wall!')
 
     if direction[0] == 'up':
@@ -377,28 +375,28 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
 
                     elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_lturn_right_down_dark[i]
+                            head2_rturn_right_down_dark[i]
                     elif head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_rturn_right_down_dark[i]
+                            head2_lturn_right_down_dark[i]
                     elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_rturn_left_down_dark[i]
+                            head2_lturn_left_down_dark[i]
                     elif head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_lturn_left_down_dark[i]
+                            head2_rturn_left_down_dark[i]
                     elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_rturn_right_up_dark[i]
+                            head2_lturn_right_up_dark[i]
                     elif head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_lturn_right_up_dark[i]
+                            head2_rturn_right_up_dark[i]
                     elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_lturn_left_up_dark[i]
+                            head2_rturn_left_up_dark[i]
                     elif head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_rturn_left_up_dark[i]
+                            head2_lturn_left_up_dark[i]
 
 
 
@@ -416,28 +414,28 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
 
                     elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_lturn_right_down_light[i]
+                            head2_rturn_right_down_light[i]
                     elif head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_rturn_right_down_light[i]
+                            head2_lturn_right_down_light[i]
                     elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_rturn_left_down_light[i]
+                            head2_lturn_left_down_light[i]
                     elif head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_lturn_left_down_light[i]
+                            head2_rturn_left_down_light[i]
                     elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_rturn_right_up_light[i]
+                            head2_lturn_right_up_light[i]
                     elif head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_lturn_right_up_light[i]
+                            head2_rturn_right_up_light[i]
                     elif head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_lturn_left_up_light[i]
+                            head2_rturn_left_up_light[i]
                     elif head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1:
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
-                            head2_rturn_left_up_light[i]
+                            head2_lturn_left_up_light[i]
 # above deals with the 2nd half of the head
         elif number > 1 and number == len(head_list) - 1:
             if col_snake % 2 != row_snake % 2:
