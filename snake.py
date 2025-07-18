@@ -244,7 +244,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
 
     if head_list is None:
         random_orb(array, data)
-        head_list = [[6, 2], [6, 1], [6, 0]]
+        head_list = [[7, 2], [7, 1], [7, 0]]
         direction.append('right')
 
     #----------------directional input code-------------------
