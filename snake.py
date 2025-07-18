@@ -73,8 +73,8 @@ def lose(raised_error, score):
 
 def begin():
     for i in range(3, 0, -1):
-        fig, ax = plt.subplots()
         colors = ['green', 'yellow', 'red']
+        fig, ax = plt.subplots(facecolor = f'{colors[i - 1]}')
         ax.axis('off')
         plt.text(64, 64, f'{i}', color = f'{colors[i - 1]}', horizontalalignment='center', verticalalignment='center', fontsize=60,
                  weight='bold', fontname='Times New Roman')
