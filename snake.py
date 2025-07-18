@@ -72,6 +72,7 @@ snake_head_right_light = load_array('snake_head_right_light')
 snake_head_left_light = load_array('snake_head_left_light')
 snake_head_up_light = load_array('snake_head_up_light')
 
+
 snake_head2_down_dark = load_array('snake_head2_down_dark')
 snake_head2_right_dark = load_array('snake_head2_right_dark')
 snake_head2_left_dark = load_array('snake_head2_left_dark')
@@ -81,6 +82,7 @@ snake_head2_down_light = load_array('snake_head2_down_light')
 snake_head2_right_light = load_array('snake_head2_right_light')
 snake_head2_left_light = load_array('snake_head2_left_light')
 snake_head2_up_light = load_array('snake_head2_up_light')
+
 
 upper_body_right_dark = load_array('upper_body_right_dark')
 upper_body_up_dark = load_array('upper_body_up_dark')
@@ -96,6 +98,33 @@ upper_body_right_up_light = load_array('upper_body_right_up_light')
 upper_body_right_down_light = load_array('upper_body_right_down_light')
 upper_body_left_up_light = load_array('upper_body_left_up_light')
 upper_body_left_down_light = load_array('upper_body_left_down_light')
+
+
+lower_body_right_dark = load_array('lower_body_right_dark')
+lower_body_up_dark = load_array('lower_body_up_dark')
+lower_body_right_light = load_array('lower_body_right_light')
+lower_body_up_light = load_array('lower_body_up_light')
+
+lower_body_right_up_dark = load_array('lower_body_right_up_dark')
+lower_body_right_down_dark = load_array('lower_body_right_down_dark')
+lower_body_left_up_dark = load_array('lower_body_left_up_dark')
+lower_body_left_down_dark = load_array('lower_body_left_down_dark')
+
+lower_body_right_up_light = load_array('lower_body_right_up_light')
+lower_body_right_down_light = load_array('lower_body_right_down_light')
+lower_body_left_up_light = load_array('lower_body_left_up_light')
+lower_body_left_down_light = load_array('lower_body_left_down_light')
+
+
+tail_down_dark = load_array('tail_down_dark')
+tail_down_light = load_array('tail_down_light')
+tail_right_dark = load_array('tail_right_dark')
+tail_right_light = load_array('tail_right_light')
+
+tail_up_dark = load_array('tail_up_dark')
+tail_up_light = load_array('tail_up_light')
+tail_left_dark = load_array('tail_left_dark')
+tail_left_light = load_array('tail_left_light')
 
 
 #-------------------function that generates a random fruit-----------------------
@@ -244,9 +273,11 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
         data[coords[0]][coords[1]] = 2
 
     #---------------------transcribes data array info to larger array for display-----------
+
     for number, coords in enumerate(head_list):
         row_snake = coords[0]
         col_snake = coords[1]
+
         if number == 0:
             if col_snake % 2 != row_snake % 2:
                 for i in range(3):
@@ -268,6 +299,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_left_light[i]
                     if direction[0] == 'right':
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head_right_light[i]
+
         elif number == 1:
             if col_snake % 2 != row_snake % 2:
                 for i in range(3):
@@ -293,7 +325,52 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_left_light[i]
                     if direction[0] == 'right':
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = snake_head2_right_light[i]
-        elif number <= (len(head_list) - 1) / 2:
+
+        elif number > 1 and number == len(head_list) - 1:
+            if col_snake % 2 != row_snake % 2:
+                if head_list[number][0] == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1] + 1:
+                    tail_left_dark[1] = np.where(tail_left_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            tail_left_dark[i]
+                if head_list[number][0] == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1] - 1:
+                    tail_right_dark[1] = np.where(tail_right_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            tail_right_dark[i]
+                if head_list[number][0] + 1 == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1]:
+                    tail_down_dark[1] = np.where(tail_down_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            tail_down_dark[i]
+                if head_list[number][0] - 1 == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1]:
+                    tail_up_dark[1] = np.where(tail_up_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            tail_up_dark[i]
+            else:
+                if head_list[number][0] == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1] + 1:
+                    tail_left_light[1] = np.where(tail_left_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            tail_left_light[i]
+                if head_list[number][0] == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1] - 1:
+                    tail_right_light[1] = np.where(tail_right_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            tail_right_light[i]
+                if head_list[number][0] + 1 == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1]:
+                    tail_down_light[1] = np.where(tail_down_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            tail_down_light[i]
+                if head_list[number][0] - 1 == head_list[number - 1][0] and head_list[number][1] == head_list[number - 1][1]:
+                    tail_up_light[1] = np.where(tail_up_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            tail_up_light[i]
+
+        elif number <= 8:
             if col_snake % 2 != row_snake % 2:
                 if head_list[number - 1][0] == head_list[number + 1][0]:
                     upper_body_right_dark[1] = np.where(upper_body_right_dark[1] == 204, 204, bing[number])
@@ -360,18 +437,73 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
                         array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
                             upper_body_left_up_light[i]
 
-        else:
-            for i in range(3):
-                if i == 0:
-                    array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = 157
-                if i == 1:
-                    array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = bing[number] #255 - 255/(number / 5 + 1)
-                if i == 2:
-                    array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = 255
+        elif number > 8:
+            if col_snake % 2 != row_snake % 2:
+                if head_list[number - 1][0] == head_list[number + 1][0]:
+                    lower_body_right_dark[1] = np.where(lower_body_right_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                            array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                                lower_body_right_dark[i]
+                elif head_list[number - 1][1] == head_list[number + 1][1]:
+                    lower_body_up_dark[1] = np.where(lower_body_up_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_up_dark[i]
 
-        '''
-        elif number == len(head_list) - 1:
-        '''
+                elif (head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]) or (head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1):
+                    lower_body_right_down_dark[1] = np.where(lower_body_right_down_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_right_down_dark[i]
+                elif (head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]) or (head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1):
+                    lower_body_left_down_dark[1] = np.where(lower_body_left_down_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_left_down_dark[i]
+                elif (head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]) or (head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1):
+                    lower_body_right_up_dark[1] = np.where(lower_body_right_up_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_right_up_dark[i]
+                elif (head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]) or (head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1):
+                    lower_body_left_up_dark[1] = np.where(lower_body_left_up_dark[1] == 204, 204, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_left_up_dark[i]
+
+            else:
+                if head_list[number - 1][0] == head_list[number + 1][0]:
+                    lower_body_right_light[1] = np.where(lower_body_right_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                            array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                                lower_body_right_light[i]
+                elif head_list[number - 1][1] == head_list[number + 1][1]:
+                    lower_body_up_light[1] = np.where(lower_body_up_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_up_light[i]
+
+                elif (head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]) or (head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1):
+                    lower_body_right_down_light[1] = np.where(lower_body_right_down_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_right_down_light[i]
+                elif (head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] - 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]) or (head_list[number - 1][0] - 1 == head_list[number][0] == head_list[number + 1][0] and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1):
+                    lower_body_left_down_light[1] = np.where(lower_body_left_down_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_left_down_light[i]
+                elif (head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] - 1 == head_list[number][1] == head_list[number + 1][1]) or (head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] - 1):
+                    lower_body_right_up_light[1] = np.where(lower_body_right_up_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_right_up_light[i]
+                elif (head_list[number - 1][0] == head_list[number][0] == head_list[number + 1][0] + 1 and head_list[number - 1][1] + 1 == head_list[number][1] == head_list[number + 1][1]) or (head_list[number + 1][0] == head_list[number][0] == head_list[number - 1][0] + 1 and head_list[number - 1][1] == head_list[number][1] == head_list[number + 1][1] + 1):
+                    lower_body_left_up_light[1] = np.where(lower_body_left_up_light[1] == 217, 217, bing[number])
+                    for i in range(3):
+                        array[i][row_snake * 8 + 4: row_snake * 8 + 12, col_snake * 8 + 4: col_snake * 8 + 12] = \
+                            lower_body_left_up_light[i]
+
 
     #-----------transposing for image processing---------------
     array = np.transpose(array, (1, 2, 0))
