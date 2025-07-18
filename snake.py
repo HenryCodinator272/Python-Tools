@@ -644,7 +644,7 @@ def snake_motion(data, head_list = None, direction = [], apple = None, count = 0
     array = np.transpose(array, (1, 2, 0))
 
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(facecolor = 'maroon')
     ax.axis('off')
     ax.imshow(array, interpolation = 'nearest')
 
